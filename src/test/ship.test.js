@@ -1,0 +1,27 @@
+import { Ship } from "../modules/ship.js";
+
+describe('Ship factory function', () => {
+
+	test('ship takes hit', () => {
+		const ship = Ship(3);
+		expect(ship.showHit()).toBe(0);
+
+		ship.getHit();
+		expect(ship.showHit()).toBe(1);
+		ship.getHit();
+		expect(ship.showHit()).toBe(2);
+	});
+
+	test('ship sink when hit enough times', () => {
+		const ship = Ship(2);
+
+		ship.getHit();
+		expect(ship.isSunk()).toBe(false);
+
+		ship.getHit();
+		expect(ship.isSunk()).toBe(true);
+	});
+
+
+
+})
