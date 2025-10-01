@@ -4,10 +4,7 @@ export function Ship(length) {
 	let hit = 0;
 	const getHit = () => hit++;
 	const showHit = () => { return hit };
-	const isSunk = () => {
-		if (hit >= shipLength) return true;
-		return false;
-	}
+	const isSunk = () => hit >= shipLength;
 
 	return { getHit, isSunk, showHit };
 }
