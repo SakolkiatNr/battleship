@@ -4,7 +4,11 @@ export function Ship(length) {
 	}
 
 	if (!Number.isInteger(length)) {
-		throw new Error('argument must be integer and not negative');
+		throw new Error('argument must be integer');
+	}
+
+	if (length < 1) {
+		throw new Error('argument must more than 0');
 	}
 
 	const shipLength = length;
