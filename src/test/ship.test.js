@@ -22,6 +22,12 @@ describe('Ship factory function', () => {
 		expect(ship.isSunk()).toBe(true);
 	});
 
+	test('Throw input type error', () => {
+		expect(() => Ship('not number')).toThrow();
+		expect(() => Ship(true)).toThrow();
+		expect(() => Ship(null)).toThrow();
+	});
+
 
 
 })
