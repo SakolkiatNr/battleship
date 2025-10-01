@@ -3,6 +3,10 @@ export function Ship(length) {
 		throw new TypeError('argument must be number.');
 	}
 
+	if (!Number.isInteger(length)) {
+		throw new Error('argument must be integer and not negative');
+	}
+
 	const shipLength = length;
 
 	let hit = 0;
