@@ -28,6 +28,13 @@ describe('Ship factory function', () => {
 		expect(() => Ship(null)).toThrow();
 	});
 
+	test('Throw if not integer', () => {
+		expect(() => Ship(1.5)).toThrow();
+		expect(() => Ship(0)).toThrow();
+		expect(() => Ship(-1)).toThrow();
+		expect(() => Ship(-1.5)).toThrow();
+	});
+
 
 
 })
