@@ -1,0 +1,15 @@
+# Ignore artifacts:
+build
+coverage
+
+# Ignore config & docs
+webpack.*.js
+README.md
+
+# Ignore environment
+node_modules
+.git
+
+# Ignore specific file types
+*.html
+*.mjs
