@@ -3,20 +3,17 @@ import { oceanGrid } from "../modules/game.js";
 
 describe('Generate board', () => {
 	const FIELD_SIZE = 10;
-	test('Each column has correct length', () => {
-		expect(oceanGrid().length).toBe(FIELD_SIZE);
-	});
+	let grid = oceanGrid();
 
-	test('Each row has correct length', () => {
-		expect(oceanGrid()[0].length).toBe(FIELD_SIZE);
-		expect(oceanGrid()[5].length).toBe(FIELD_SIZE);
-		expect(oceanGrid()[9].length).toBe(FIELD_SIZE);
+	test('Returns a 10x10 array', () => {
+		expect(grid.length).toBe(10);
+		grid.forEach(row => expect(row.length).toBe(10));
 	});
 
 	test('All cells are null', () => {
-		expect(oceanGrid()[0].every(value => value === null)).toBe(true);
-		expect(oceanGrid()[5].every(value => value === null)).toBe(true);
-		expect(oceanGrid()[9].every(value => value === null)).toBe(true);
+		grid.forEach(row => {
+			row.forEach(cell => expect(cell).toBe(null));
+		});
 	});
 
 	test('Return type is array of array', () => {
@@ -24,7 +21,6 @@ describe('Generate board', () => {
 		expect(Array.isArray(grid)).toBe(true);
 
 		grid.forEach(row =>
-			expect(Array.isArray(row))
-				.toBe(true));
+			expect(Array.isArray(row)).toBe(true));
 	});
 });
