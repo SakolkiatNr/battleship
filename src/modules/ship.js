@@ -3,14 +3,17 @@ export function Ship(length) {
 
 	const shipLength = length;
 	const shipId = crypto.randomUUID();
-	const getId = () => { return shipId };
 
 	let hit = 0;
 	const getHit = () => hit++;
-	const showHit = () => { return hit };
 	const isSunk = () => hit >= shipLength;
 
-	return { getHit, showHit, isSunk, getId };
+	return {
+		getHit, isSunk,
+		get showHit() { return hit },
+		get getId() { return shipId },
+		get getLength() { return shipLength }
+	};
 }
 
 function validateInput(input) {
