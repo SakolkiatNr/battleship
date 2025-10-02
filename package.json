@@ -1,5 +1,5 @@
 {
-  "name": "web-starter-template",
+  "name": "battleship",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -15,15 +15,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SakolkiatNr/web-starter-template.git"
+    "url": "git+https://github.com/SakolkiatNr/battleship.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/SakolkiatNr/web-starter-template/issues"
+    "url": "https://github.com/SakolkiatNr/battleship/issues"
   },
-  "homepage": "https://github.com/SakolkiatNr/web-starter-template#readme",
+  "homepage": "https://github.com/SakolkiatNr/battleship#readme",
   "devDependencies": {
     "@babel/core": "^7.28.4",
     "@babel/preset-env": "^7.28.3",
