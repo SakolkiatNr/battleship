@@ -6,13 +6,13 @@ export function Ship(length) {
 
 	let hit = 0;
 	const getHit = () => hit++;
-	const isSunk = () => hit >= shipLength;
 
 	return {
-		getHit, isSunk,
+		getHit,
+		get id() { return shipId },
+		get length() { return shipLength },
 		get showHit() { return hit },
-		get getId() { return shipId },
-		get getLength() { return shipLength }
+		get isSunk() { return hit >= shipLength }
 	};
 }
 
