@@ -7,7 +7,10 @@ function Gameboard() {
 
 function oceanGrid() {
 	const FIELD_SIZE = 10;
-	let oceanColumn = Array.from(new Array(FIELD_SIZE), () => []);
+	let oceanColumn = Array.from({ length: FIELD_SIZE }, () => []);
+
+	let emptyCell = new Array(FIELD_SIZE).fill(null);
+	oceanColumn.forEach(row => row.push(...emptyCell));
 
 	return oceanColumn;
 }
