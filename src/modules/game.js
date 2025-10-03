@@ -29,7 +29,7 @@ export function oceanGrid() {
 	return oceanColumn;
 }
 
-function placeHorizontalShip(board, start, ship) {
+export function placeHorizontalShip(board, start, ship) {
 	const shipID = ship.id;
 	const end = ship.length;
 	const [row, col] = start;
@@ -41,7 +41,7 @@ function placeHorizontalShip(board, start, ship) {
 	}
 }
 
-function checkHorizontal(board, start, shipLength) {
+export function checkHorizontal(board, start, shipLength) {
 	const [row, col] = start;
 
 	// if out of range
@@ -56,7 +56,7 @@ function checkHorizontal(board, start, shipLength) {
 	return true;
 }
 
-function placeVerticalShip(board, start, ship) {
+export function placeVerticalShip(board, start, ship) {
 	const shipID = ship.id;
 	const end = ship.length;
 	const [row, col] = start;
@@ -69,7 +69,7 @@ function placeVerticalShip(board, start, ship) {
 	}
 }
 
-function checkVertical(board, start, shipLength) {
+export function checkVertical(board, start, shipLength) {
 	const [row, col] = start;
 	// if out of range
 	if (!(col >= 0 && col <= 9) ||
