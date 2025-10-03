@@ -9,6 +9,16 @@ function Gameboard() {
 	let board = oceanGrid();
 }
 
+function ships() {
+	const carrier = Ship(5);
+	const battleship = Ship(4);
+	const destroyer = Ship(3);
+	const submarine = Ship(3);
+	const patrolBoat = Ship(2);
+
+	return { carrier, battleship, destroyer, submarine, patrolBoat };
+}
+
 export function oceanGrid() {
 	const FIELD_SIZE = 10;
 	let oceanColumn = Array.from({ length: FIELD_SIZE }, () => []);
@@ -80,7 +90,7 @@ let boat2 = Ship(2);
 let board = oceanGrid();
 placeHorizontalShip(board, [9, 0], boat);
 placeVerticalShip(board, [0, 0], boat2);
-console.log(board);
+// console.log(board);
 
 // const ships = {
 // ship.id : ship(n)
