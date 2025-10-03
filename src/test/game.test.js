@@ -27,20 +27,22 @@ describe('Generate board', () => {
 });
 
 describe('Place ship', () => {
+	let board = oceanGrid();
+	const ship = { id: 'A', length: 3 }
+
+	// reset board for each test
+	beforeEach(() => {
+		board = oceanGrid();
+	})
+
 	describe('Horizontally', () => {
+
 		test('checkHorizontal return false if not empty', () => {
-			const board = oceanGrid();
-			const ship = { id: 'A', length: 3 }
-
+			expect(checkHorizontal(board, [0, 0], ship.length)).toBe(true);
 			placeHorizontalShip(board, [0, 0], ship);
-
-			expect(checkHorizontal(board, [0, 0], ship.length)).toBe(false);
 			expect(checkHorizontal(board, [0, 1], ship.length)).toBe(false);
 		});
 		test('place ship if space is empty', () => {
-			const board = oceanGrid();
-			const ship = { id: 'A', length: 3 }
-
 			placeHorizontalShip(board, [0, 0], ship);
 			expect(board[0][0]).toBe('A');
 			expect(board[0][1]).toBe('A');
@@ -49,22 +51,19 @@ describe('Place ship', () => {
 	});
 
 	describe('Vertically', () => {
-		const board = oceanGrid();
-		const ship = { id: 'A', length: 3 }
-		placeVerticalShip(board, [0, 0], ship);
-
 		test('check vertical return false if not empty', () => {
-			expect(checkVertical(board, [0, 0], ship.length)).toBe(false);
+			expect(checkVertical(board, [0, 0], ship.length)).toBe(true);
+			placeVerticalShip(board, [0, 0], ship);
 			expect(checkVertical(board, [1, 0], ship.length)).toBe(false);
 		});
 		test('place ship if space is empty', () => {
+			placeVerticalShip(board, [0, 0], ship);
 			expect(board[0][0]).toBe('A');
 			expect(board[1][0]).toBe('A');
 			expect(board[2][0]).toBe('A');
 		});
 
 	});
-
 
 
 });
