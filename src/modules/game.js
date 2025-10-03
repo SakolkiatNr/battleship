@@ -22,21 +22,14 @@ function placeHorizontalShip(board, start, ship) {
 	const end = ship.length;
 	const [row, col] = start;
 
-	console.log(checkEmpty(board, start, ship.length));
+	checkEmpty(board, start, ship.length);
 
 	for (let i = 0; i < end; i++) {
 		board[row][col + i] = shipID;
 	}
-	console.log(checkEmpty(board, start, ship.length));
+
+	// console.log(board[row]);
 }
-
-let boat = Ship(5);
-let board = oceanGrid();
-placeHorizontalShip(board, [9, 4], boat);
-console.log(board);
-
-
-
 
 function checkEmpty(board, start, shipLength) {
 	// selected cell to start checking
@@ -47,12 +40,48 @@ function checkEmpty(board, start, shipLength) {
 	if (col + shipLength - 1 > 9) return false;
 
 	// target cells must be empty
-	let targetCell = board[row].slice(col, col + shipLength);
-	if (targetCell.every(cell => cell === null)) return true;
-
 	for (let i = 0; i < shipLength; i++) {
 		if (board[row][col + i] !== null) return false;
 	}
 	return true;
 }
+
+
+function placeVerticalShip(board, start, ship) {
+	const shipID = ship.id;
+	const end = ship.length;
+	const [row, col] = start;
+
+	//check vertical case
+	checkEmptyVertical(board, start, ship.length)
+
+	for (let i = 0; i < end; i++) {
+		board[row + i][col] = shipID;
+	}
+}
+
+function checkEmptyVertical(board, start, shipLength) {
+	const [row, col] = start;
+
+	// if out of range
+	if (col < 0 || col > 9) return false;
+	if (col + shipLength - 1 > 9) return false;
+
+	// target cells must be empty
+	for (let i = 0; i < shipLength; i++) {
+		if (board[row + i][col] !== null) return false;
+	}
+	return true;
+}
+
+
+// TESTING
+
+let boat = Ship(3);
+let boat2 = Ship(2);
+let board = oceanGrid();
+placeHorizontalShip(board, [9, 4], boat);
+placeVerticalShip(board, [7, 0], boat2);
+
+console.log(board);
 
