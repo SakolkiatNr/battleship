@@ -83,6 +83,18 @@ export function checkVertical(board, start, shipLength) {
 	return true;
 }
 
+function markSpot(board, pointer) {
+	// mark 0 on the board if empty
+	// mark 1 if it's a ship
+	const [row, col] = pointer;
+	let cell = board[row][col];
+
+	if (cell === null) board[row][col] = 0;
+	if (cell === 1) return;
+	else board[row][col] = 1;
+}
+
+
 
 // TESTING
 let boat = Ship(3);
