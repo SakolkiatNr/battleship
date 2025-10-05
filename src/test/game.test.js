@@ -5,6 +5,7 @@ import {
 	placeVerticalShip, placeHorizontalShip,
 	checkHorizontal, checkVertical,
 	receiveAttack,
+	checkAllSink,
 
 } from "../modules/game.js";
 import { Ship } from "../modules/ship.js";
@@ -102,5 +103,32 @@ describe('RecieveAttack', () => {
 		// hit again
 		receiveAttack(board, [0, 0], ships);
 		expect(ships.ship1.showHit).toBe(MARKED);
+	});
+});
+
+describe('Check whether all ships are sunk', () => {
+	let ships;
+	beforeEach(() => {
+		ships = {
+			ship1: Ship(1),
+			ship2: Ship(1)
+		}
+	});
+
+	test('return false when some ships remain', () => {
+		expect(checkAllSink(ships)).toBe(false);
+		ships.ship1.getHit();
+		expect(checkAllSink(ships)).toBe(false);
+	});
+
+	test('return true when all ships are sunk', () => {
+		ships.ship1.getHit();
+		ships.ship2.getHit();
+		expect(checkAllSink(ships)).toBe(true);
+	});
+
+	test('return true when no ships exists', () => {
+		ships = {};
+		expect(checkAllSink(ships)).toBe(true);
 	});
 });
