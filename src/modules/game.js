@@ -10,19 +10,21 @@ export function Gameboard() {
 	const ships = createShips();
 
 	const placeShip = (ship, direction, target) => {
-		if (direction === 'horizontal')
-			placeHorizontalShip(board, target, ship);
-
-		if (direction === 'vertical')
-			placeVerticalShip(board, target, ship);
+		direction === 'horizontal'
+			? placeHorizontalShip(board, target, ship)
+			: placeVerticalShip(board, target, ship);
 	}
 
-	const attacked = (target) => {
+	const wasAttacked = (target) => {
 		receiveAttack(board, target, ships);
 		checkAllSink(ships);
 	}
 
-	return { placeShip, attacked }
+	return {
+		placeShip,
+		wasAttacked,
+		get getBoard() { return board }
+	};
 }
 
 
