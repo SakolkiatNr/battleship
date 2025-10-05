@@ -9,7 +9,7 @@ function Gameboard() {
 	let board = oceanGrid();
 }
 
-function ships() {
+export function ships() {
 	const carrier = Ship(5);
 	const battleship = Ship(4);
 	const destroyer = Ship(3);
@@ -83,7 +83,7 @@ export function checkVertical(board, start, shipLength) {
 	return true;
 }
 
-function markSpot(board, pointer) {
+export function markSpot(board, pointer) {
 	// mark 0 on the board if empty
 	// mark 1 if it's a ship
 	const [row, col] = pointer;
@@ -94,15 +94,31 @@ function markSpot(board, pointer) {
 	else board[row][col] = 1;
 }
 
+export function receiveAttack(board, pointer, ships) {
+	const [row, col] = pointer;
+	let cell = board[row][col];
 
+	if (typeof cell === 'string') {
+		for (let ship of ships) {
+			if (cell === ship.id) ship.getHit();
+		}
+	}
+	markSpot(board, pointer);
+}
 
 // TESTING
 let boat = Ship(3);
 let boat2 = Ship(2);
 let board = oceanGrid();
-placeHorizontalShip(board, [9, 0], boat);
+placeHorizontalShip(board, [9, 1], boat);
 placeVerticalShip(board, [0, 0], boat2);
 // console.log(board);
+// let a = receiveAttack(board, [9, 1]);
+// console.log(a);
+
+
+// console.log(typeof board[9][0]);
+// console.log(typeof board[9][1]);
 
 // const ships = {
 // ship.id : ship(n)
