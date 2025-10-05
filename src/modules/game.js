@@ -1,12 +1,28 @@
-import { Ship } from "./ship.js";
+import { createShips } from "./createShips.js";
 
-function Gameboard() {
+export function Gameboard() {
 	// place ship at specific coordinates by calling ship class
 	// receive attack function
 	// track missed attacks
 	// report if all the ships have sunk
 
-	let board = oceanGrid();
+	const board = oceanGrid();
+	const ships = createShips();
+
+	const placeShip = (ship, direction, target) => {
+		if (direction === 'horizontal')
+			placeHorizontalShip(board, target, ship);
+
+		if (direction === 'vertical')
+			placeVerticalShip(board, target, ship);
+	}
+
+	const attacked = (target) => {
+		receiveAttack(board, target, ships);
+		checkAllSink(ships);
+	}
+
+	return { placeShip, attacked }
 }
 
 
@@ -74,7 +90,7 @@ export function checkVertical(board, start, shipLength) {
 	return true;
 }
 
-export function markSpot(board, pointer) {
+function markSpot(board, pointer) {
 	// mark 0 on the board if empty
 	// mark 1 if it's a ship
 	const [row, col] = pointer;
@@ -98,3 +114,11 @@ export function receiveAttack(board, pointer, ships) {
 	}
 	markSpot(board, pointer);
 }
+
+export function checkAllSink(ships) {
+	for (let ship in ships) {
+		if (ships[ship].isSunk === false) return false;
+	}
+	return true;
+}
+
