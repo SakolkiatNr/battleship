@@ -1,4 +1,5 @@
 // import { types } from "@babel/core";
+// import { RuleTester } from "eslint";
 import {
 	oceanGrid,
 	placeVerticalShip, placeHorizontalShip,
@@ -6,7 +7,7 @@ import {
 	receiveAttack, markSpot,
 
 } from "../modules/game.js";
-// import { oceanGrid } from "../modules/game.js";
+import { Ship } from "../modules/ship.js";
 
 describe('Generate board', () => {
 	const FIELD_SIZE = 10;
@@ -71,3 +72,35 @@ describe('Place ship', () => {
 	});
 });
 
+describe('RecieveAttack', () => {
+	let board, ships;
+	beforeEach(() => {
+		board = oceanGrid();
+		ships = {
+			ship1: Ship(2),
+			ship2: Ship(3),
+		}
+	});
+
+	test('when cell is empty mark 0', () => {
+		receiveAttack(board, [0, 0], ships);
+		expect(board[0][0]).toBe(0);
+
+		// hit again
+		receiveAttack(board, [0, 0], ships);
+		expect(board[0][0]).toBe(0);
+	});
+
+	test('when cell have a ship mark 1', () => {
+		placeHorizontalShip(board, [0, 0], ships.ship1);
+		receiveAttack(board, [0, 0], ships);
+		expect(board[0][0]).toBe(1);
+		expect(ships.ship1.showHit).toBe(1);
+
+		// hit again
+		receiveAttack(board, [0, 0], ships);
+		expect(ships.ship1.showHit).toBe(1);
+	});
+
+
+});
