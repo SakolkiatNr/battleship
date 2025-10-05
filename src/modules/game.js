@@ -81,7 +81,7 @@ export function markSpot(board, pointer) {
 	let cell = board[row][col];
 
 	if (cell === null) board[row][col] = 0;
-	if (cell === 1) return;
+	else if (cell === 1 || cell === 0) return;
 	else board[row][col] = 1;
 }
 
@@ -89,11 +89,12 @@ export function receiveAttack(board, pointer, ships) {
 	const [row, col] = pointer;
 	let cell = board[row][col];
 
+	// if found ship, hit it! 
 	if (typeof cell === 'string') {
-		for (let ship of ships) {
-			if (cell === ship.id) ship.getHit();
+		for (let ship in ships) {
+			if (ships[ship].id === cell)
+				ships[ship].getHit();
 		}
 	}
 	markSpot(board, pointer);
 }
-
