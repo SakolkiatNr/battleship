@@ -4,7 +4,7 @@ import {
 	oceanGrid,
 	placeVerticalShip, placeHorizontalShip,
 	checkHorizontal, checkVertical,
-	receiveAttack, markSpot,
+	receiveAttack,
 
 } from "../modules/game.js";
 import { Ship } from "../modules/ship.js";
@@ -74,6 +74,8 @@ describe('Place ship', () => {
 
 describe('RecieveAttack', () => {
 	let board, ships;
+	const MISSED_ATTACK = 0;
+	const MARKED = 1;
 	beforeEach(() => {
 		board = oceanGrid();
 		ships = {
@@ -84,23 +86,21 @@ describe('RecieveAttack', () => {
 
 	test('when cell is empty mark 0', () => {
 		receiveAttack(board, [0, 0], ships);
-		expect(board[0][0]).toBe(0);
+		expect(board[0][0]).toBe(MISSED_ATTACK);
 
 		// hit again
 		receiveAttack(board, [0, 0], ships);
-		expect(board[0][0]).toBe(0);
+		expect(board[0][0]).toBe(MISSED_ATTACK);
 	});
 
 	test('when cell have a ship mark 1', () => {
 		placeHorizontalShip(board, [0, 0], ships.ship1);
 		receiveAttack(board, [0, 0], ships);
-		expect(board[0][0]).toBe(1);
-		expect(ships.ship1.showHit).toBe(1);
+		expect(board[0][0]).toBe(MARKED);
+		expect(ships.ship1.showHit).toBe(MARKED);
 
 		// hit again
 		receiveAttack(board, [0, 0], ships);
-		expect(ships.ship1.showHit).toBe(1);
+		expect(ships.ship1.showHit).toBe(MARKED);
 	});
-
-
 });
