@@ -1,5 +1,11 @@
 // import { types } from "@babel/core";
-import { oceanGrid, placeVerticalShip, placeHorizontalShip, checkHorizontal, checkVertical } from "../modules/game.js";
+import {
+	oceanGrid,
+	placeVerticalShip, placeHorizontalShip,
+	checkHorizontal, checkVertical,
+	receiveAttack, markSpot,
+
+} from "../modules/game.js";
 // import { oceanGrid } from "../modules/game.js";
 
 describe('Generate board', () => {
@@ -62,8 +68,6 @@ describe('Place ship', () => {
 			expect(board[1][0]).toBe('A');
 			expect(board[2][0]).toBe('A');
 		});
-
 	});
-
-
 });
+
