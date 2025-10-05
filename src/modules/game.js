@@ -9,15 +9,6 @@ function Gameboard() {
 	let board = oceanGrid();
 }
 
-export function ships() {
-	const carrier = Ship(5);
-	const battleship = Ship(4);
-	const destroyer = Ship(3);
-	const submarine = Ship(3);
-	const patrolBoat = Ship(2);
-
-	return { carrier, battleship, destroyer, submarine, patrolBoat };
-}
 
 export function oceanGrid() {
 	const FIELD_SIZE = 10;
@@ -106,23 +97,3 @@ export function receiveAttack(board, pointer, ships) {
 	markSpot(board, pointer);
 }
 
-// TESTING
-let boat = Ship(3);
-let boat2 = Ship(2);
-let board = oceanGrid();
-placeHorizontalShip(board, [9, 1], boat);
-placeVerticalShip(board, [0, 0], boat2);
-// console.log(board);
-// let a = receiveAttack(board, [9, 1]);
-// console.log(a);
-
-
-// console.log(typeof board[9][0]);
-// console.log(typeof board[9][1]);
-
-// const ships = {
-// ship.id : ship(n)
-// "id1": 'ship1',
-// "id2": 'ship2',
-// "id3": 'ship3',
-// }
