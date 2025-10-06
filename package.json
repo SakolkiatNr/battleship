@@ -10,9 +10,10 @@
     "prettier": "prettier . --write",
     "prettier:check": "prettier . --check",
     "eslint": "eslint .",
+	"tailwind": "npx @tailwindcss/cli -i ./src/styles.css -o ./src/output.css --watch",
     "deploy:commit": "git add dist -f && git commit -m \"Deployment commit\"",
     "deploy": "git subtree push --prefix dist origin gh-pages",
-	"start": "babel-node src/modules/game.js"
+    "start": "babel-node src/modules/game.js"
   },
   "repository": {
     "type": "git",
@@ -43,5 +44,9 @@
     "webpack-cli": "^6.0.1",
     "webpack-dev-server": "^5.2.2",
     "webpack-merge": "^6.0.1"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.14",
+    "tailwindcss": "^4.1.14"
   }
 }

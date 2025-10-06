@@ -1,2 +1,2 @@
-import "./styles.css";
+import "./output.css";
 
