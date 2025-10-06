@@ -1,7 +1,7 @@
 import { Gameboard } from "./game.js";
 
-export function Player() {
+export function Player(name) {
 	const action = Gameboard();
 
-	return { action };
+	return { name, action };
 }

@@ -1,16 +1,16 @@
 import { Player } from "../modules/player.js";
-import { Ship } from "../modules/ship.js";
 
 
 describe('Player', () => {
 	let player;
 
 	beforeEach(() => {
-		player = Player();
+		player = Player('lmao');
 	});
 
 	describe('have property', () => {
 		test('return property', () => {
+			expect(player.name).toBe('lmao');
 			expect(player).toHaveProperty('action');
 			expect(player.action).toHaveProperty('placeShip');
 			expect(player.action).toHaveProperty('wasAttacked');
