@@ -20,10 +20,15 @@ export function Gameboard() {
 		checkAllSink(ships);
 	}
 
+	const getBoard = () => board;
+	const getShips = () => ships;
+
 	return {
 		placeShip,
 		wasAttacked,
-		get getBoard() { return board }
+		getBoard,
+		getShips,
+		get CheckSink() { return checkAllSink(ships) }
 	};
 }
 
