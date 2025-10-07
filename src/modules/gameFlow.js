@@ -1,9 +1,31 @@
 import { createPlayer } from "./playerNameInput.js";
 import { generateBoard } from "./renderBoard.js";
 
-// player1
-function placePlayerShips() {
+export function newGame() {
+	const playerBoardDiv = document.getElementById('player-board');
+	const aiBoardDiv = document.getElementById('ai-board');
+
+	// create players
 	const player = createPlayer('Steve');
+	const ai = createPlayer('Enemy');
+
+	// place ships 
+	playerBoardDiv.append(placePlayerShips(player));
+	aiBoardDiv.append(placeAiShips(ai));
+
+	aiBoardDiv.addEventListener('click', (e) => {
+
+		// attack AI
+		clickHandler(e.target, ai);
+		console.log(ai.action.CheckSink);
+		updateBoard(aiBoardDiv, ai.action.getBoard());
+
+		// updateBoard(playerBoardDiv, player.action.getBoard());
+	});
+}
+
+// player1
+function placePlayerShips(player) {
 	let playerShips = player.action.getShips();
 
 	player.action.placeShip(playerShips.carrier, 'horizontal', [1, 3]);
@@ -13,13 +35,11 @@ function placePlayerShips() {
 	player.action.placeShip(playerShips.patrolBoat, 'vertical', [7, 6]);
 
 	const playerBoard = generateBoard(player.action.getBoard());
-
 	return playerBoard;
 }
 
 // bot
-function placeAiShips() {
-	const ai = createPlayer('aislop');
+function placeAiShips(ai) {
 	const aiShips = ai.action.getShips();
 
 	ai.action.placeShip(aiShips.carrier, 'horizontal', [0, 0]);
@@ -32,10 +52,14 @@ function placeAiShips() {
 	return aiBoard;
 }
 
-export function newGame() {
-	const playerBoardDiv = document.getElementById('player-board');
-	const aiBoardDiv = document.getElementById('ai-board');
 
-	playerBoardDiv.append(placePlayerShips());
-	aiBoardDiv.append(placeAiShips());
+function clickHandler(event, player) {
+	const row = event.dataset.row;
+	const col = event.dataset.col;
+	player.action.wasAttacked([row, col]);
+}
+
+function updateBoard(container, board) {
+	container.textContent = "";
+	container.append(generateBoard(board));
 }
