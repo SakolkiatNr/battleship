@@ -1,13 +1,3 @@
-//generate board
-// create cell
-// dataset for eachcell = playerBoard value
-// change board value method
-// 
-
-// import { createPlayer } from "./playerNameInput.js";
-
-// let board = createPlayer('random name').getBoard();
-
 export function generateBoard(board) {
 	const boardDiv = document.createElement('div');
 
@@ -20,6 +10,8 @@ export function generateBoard(board) {
 
 			cell.dataset.row = rowIdx;
 			cell.dataset.col = colIdx;
+			cell.dataset.val = cellValue;
+
 			// cell.textContent = `${cellValue}`;
 			cell.textContent = `${convertValueToUI(cellValue)}`;
 			cell.classList.add('cell');
@@ -34,13 +26,8 @@ export function generateBoard(board) {
 }
 
 function convertValueToUI(value) {
-	if (value === null) return ' =void= ';
-	if (value === 0) return 'x';
-	if (value === 1) return '!';
+	if (value === null) return '•';
+	if (value === 0) return 'X';
+	// if (typeof value === 'string') return '■';
+	if (typeof value === 'string') return 'X';
 }
-
-// if click
-// check if value = null?
-// if not change value to x
-//
-
