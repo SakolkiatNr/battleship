@@ -27,7 +27,7 @@ export function generateBoard(board) {
 
 function convertValueToUI(value) {
 	if (value === null) return '•';
-	if (value === 0) return 'X';
-	// if (typeof value === 'string') return '■';
-	if (typeof value === 'string') return 'X';
+	if (value === 0) return '+';
+	if (value === 1) return 'X'
+	if (typeof value === 'string') return '■';
 }
