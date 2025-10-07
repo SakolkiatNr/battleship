@@ -20,7 +20,21 @@ export function newGame() {
 		console.log(ai.action.CheckSink);
 		updateBoard(aiBoardDiv, ai.action.getBoard());
 
-		// updateBoard(playerBoardDiv, player.action.getBoard());
+		if (ai.action.CheckSink) {
+			// declare you win
+			// restart the game
+			alert('you win bro')
+		}
+
+		// TODO fix when ai attack the same spot
+		attackPlayer(player);
+		updateBoard(playerBoardDiv, player.action.getBoard());
+		if (player.action.CheckSink) {
+			// declare you lose
+			// restart the game
+			alert('you lose bro!');
+		}
+
 	});
 }
 
@@ -62,4 +76,25 @@ function clickHandler(event, player) {
 function updateBoard(container, board) {
 	container.textContent = "";
 	container.append(generateBoard(board));
+}
+
+
+function attackPlayer(player) {
+	// ai attack player randomly
+	// it's an array so index is between 0 - 9
+	const BOARD_SIZE = 10;
+	const randomCoord = () => Math.floor(Math.random() * BOARD_SIZE);
+
+	let row = randomCoord();
+	let col = randomCoord();
+	let cell = player.action.getBoard()[row][col];
+
+	// prevent ai attack the same cell
+	while (cell === 1 || cell === 0) {
+		row = randomCoord();
+		col = randomCoord();
+		cell = player.action.getBoard()[row][col];
+	}
+
+	player.action.wasAttacked([row, col]);
 }
