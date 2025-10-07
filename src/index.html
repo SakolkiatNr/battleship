@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Battleship</title>
 	<link rel="stylesheet" href="./output.css">
+	<script></script>
 </head>
 
 <body class="bg-black">
@@ -15,20 +16,22 @@
 		<p class="text-lg font-medium text-white">Made by SKK</p>
 	</div>
 
-	<div id="gameboard">
+	<div id="gameboard" class="text-white flex flex-row gap-20">
+		<div id="player-board"></div>
+		<div id="ai-board"></div>
 	</div>
 
-	<dialog open class="bg-gray-800 text-white p-5 rounded-md shadow-md fixed left-[50%] top-[50%] translate-[-50%]">
+	<dialog class="bg-gray-800 text-white p-5 rounded-md shadow-md fixed left-[50%] top-[50%] translate-[-50%]">
 		<h1 class="text-xl font-semibold mb-2 w-[20rem] ">Welcome to Battleship game!</h1>
 
 		<form method="dialog" class="flex flex-col ">
 			<fieldset class="flex flex-col border rounded-md">
 				<legend class="ml-3 pl-1 pr-1">Captain</legend>
-				<input type="text" name="player-name" id="player-Name" placeholder="What's your name ?"
+				<input type="text" name="player-name" id="player-name" placeholder="What's your name ?"
 					class="p-1 ml-3">
 			</fieldset>
 
-			<button
+			<button id="name-confirm"
 				class="text-black p-1 px-2 mt-[1rem] bg-gray-300 border-1 rounded-sm w-[5rem] self-end hover:bg-gray-800 hover:text-white">
 				<span class="font-medium">Confirm</span>
 			</button>
