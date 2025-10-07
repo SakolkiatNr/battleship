@@ -1,3 +1,12 @@
+//TODO
+// restart the game when game ends
+// 		remove board
+// 		create new newGame()
+//
+// player place ship
+// drag and drop
+
+
 import { createPlayer } from "./playerNameInput.js";
 import { generateBoard } from "./renderBoard.js";
 
@@ -10,31 +19,33 @@ export function newGame() {
 	const ai = createPlayer('Enemy');
 
 	// place ships 
-	playerBoardDiv.append(placePlayerShips(player));
-	aiBoardDiv.append(placeAiShips(ai));
+	placePlayerShips(player);
+	placeAiShips(ai);
+
+	// generate board 
+	const playerBoard = player.action.getBoard();
+	const aiBoard = ai.action.getBoard();
+
+	playerBoardDiv.append(generateBoard(playerBoard));
+	aiBoardDiv.append(generateBoard(aiBoard));
+
 
 	aiBoardDiv.addEventListener('click', (e) => {
-
 		// attack AI
 		clickHandler(e.target, ai);
-		console.log(ai.action.CheckSink);
 		updateBoard(aiBoardDiv, ai.action.getBoard());
 
 		if (ai.action.CheckSink) {
-			// declare you win
-			// restart the game
 			alert('you win bro')
+			// restart 
 		}
 
-		// TODO fix when ai attack the same spot
 		attackPlayer(player);
 		updateBoard(playerBoardDiv, player.action.getBoard());
 		if (player.action.CheckSink) {
-			// declare you lose
-			// restart the game
 			alert('you lose bro!');
+			// restart
 		}
-
 	});
 }
 
@@ -47,9 +58,6 @@ function placePlayerShips(player) {
 	player.action.placeShip(playerShips.destroyer, 'horizontal', [3, 2]);
 	player.action.placeShip(playerShips.submarine, 'horizontal', [5, 2]);
 	player.action.placeShip(playerShips.patrolBoat, 'vertical', [7, 6]);
-
-	const playerBoard = generateBoard(player.action.getBoard());
-	return playerBoard;
 }
 
 // bot
@@ -61,9 +69,6 @@ function placeAiShips(ai) {
 	ai.action.placeShip(aiShips.destroyer, 'horizontal', [8, 2]);
 	ai.action.placeShip(aiShips.submarine, 'vertical', [3, 5]);
 	ai.action.placeShip(aiShips.patrolBoat, 'horizontal', [7, 8]);
-
-	const aiBoard = generateBoard(ai.action.getBoard());
-	return aiBoard;
 }
 
 
