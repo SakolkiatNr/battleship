@@ -6,11 +6,11 @@
 // player place ship
 // drag and drop
 
-
 import { createPlayer } from "./playerNameInput.js";
 import { generateBoard } from "./renderBoard.js";
 
 export function newGame() {
+	// board containers
 	const playerBoardDiv = document.getElementById('player-board');
 	const aiBoardDiv = document.getElementById('ai-board');
 
@@ -31,13 +31,10 @@ export function newGame() {
 	aiBoardDiv.append(generateBoard(aiBoard));
 
 	aiBoardDiv.addEventListener('click', (e) => {
-		// attack AI
-
 		// if attack marked spot
 		if (e.target.dataset.val === '0' ||
 			e.target.dataset.val === '1') return;
 
-		console.log(e.target.dataset.val);
 		attackAI(e.target, ai);
 		updateBoard(aiBoardDiv, ai.action.getBoard());
 
@@ -45,14 +42,23 @@ export function newGame() {
 		if (ai.action.CheckSink) {
 			alert('you win bro')
 			// restart 
+
+			removeBoard(playerBoardDiv, aiBoardDiv);
+			newGame();
+			return;
 		}
 
 		// Ai strike back!!!
 		attackPlayer(player);
 		updateBoard(playerBoardDiv, player.action.getBoard());
+
 		if (player.action.CheckSink) {
 			alert('you lose bro!');
 			// restart
+
+			removeBoard(playerBoardDiv, aiBoardDiv);
+			newGame();
+			return;
 		}
 	});
 }
@@ -79,7 +85,6 @@ function placeAiShips(ai) {
 	ai.action.placeShip(aiShips.patrolBoat, 'horizontal', [7, 8]);
 }
 
-
 function attackAI(event, player) {
 	const row = event.dataset.row;
 	const col = event.dataset.col;
@@ -90,7 +95,6 @@ function updateBoard(container, board) {
 	container.textContent = "";
 	container.append(generateBoard(board));
 }
-
 
 function attackPlayer(player) {
 	// ai attack player randomly
@@ -110,4 +114,9 @@ function attackPlayer(player) {
 	}
 
 	player.action.wasAttacked([row, col]);
+}
+
+function removeBoard(playerContainer, aiContainer) {
+	playerContainer.textContent = "";
+	aiContainer.textContent = "";
 }
