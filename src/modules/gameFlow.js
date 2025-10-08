@@ -26,20 +26,28 @@ export function newGame() {
 	const playerBoard = player.action.getBoard();
 	const aiBoard = ai.action.getBoard();
 
+	// show board
 	playerBoardDiv.append(generateBoard(playerBoard));
 	aiBoardDiv.append(generateBoard(aiBoard));
 
-
 	aiBoardDiv.addEventListener('click', (e) => {
 		// attack AI
-		clickHandler(e.target, ai);
+
+		// if attack marked spot
+		if (e.target.dataset.val === '0' ||
+			e.target.dataset.val === '1') return;
+
+		console.log(e.target.dataset.val);
+		attackAI(e.target, ai);
 		updateBoard(aiBoardDiv, ai.action.getBoard());
 
+		// if all of the Ai ship sinks
 		if (ai.action.CheckSink) {
 			alert('you win bro')
 			// restart 
 		}
 
+		// Ai strike back!!!
 		attackPlayer(player);
 		updateBoard(playerBoardDiv, player.action.getBoard());
 		if (player.action.CheckSink) {
@@ -72,7 +80,7 @@ function placeAiShips(ai) {
 }
 
 
-function clickHandler(event, player) {
+function attackAI(event, player) {
 	const row = event.dataset.row;
 	const col = event.dataset.col;
 	player.action.wasAttacked([row, col]);
