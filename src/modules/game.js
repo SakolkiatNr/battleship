@@ -10,9 +10,9 @@ export function Gameboard() {
 	const ships = createShips();
 
 	const placeShip = (ship, direction, target) => {
-		direction === 'horizontal'
+		return direction === 'horizontal'
 			? placeHorizontalShip(board, target, ship)
-			: placeVerticalShip(board, target, ship);
+			: placeVerticalShip(board, target, ship)
 	}
 
 	const wasAttacked = (target) => {
@@ -52,7 +52,9 @@ export function placeHorizontalShip(board, start, ship) {
 		for (let i = 0; i < end; i++) {
 			board[row][col + i] = shipID;
 		}
+		return true;
 	}
+	return false;
 }
 
 export function checkHorizontal(board, start, shipLength) {
@@ -80,7 +82,9 @@ export function placeVerticalShip(board, start, ship) {
 		for (let i = 0; i < end; i++) {
 			board[row + i][col] = shipID;
 		}
+		return true;
 	}
+	return false;
 }
 
 export function checkVertical(board, start, shipLength) {
