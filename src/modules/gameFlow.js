@@ -15,13 +15,11 @@ export function newGame() {
 	const player = createPlayer('Steve');
 	const ai = createPlayer('Enemy');
 
-	// place ships 
-	// placePlayerShips(player);
-	placeAiShips(ai);
-
 
 	// generate board 
 	const playerBoard = player.action.getBoard();
+
+	placeAiShips(ai);
 	const aiBoard = ai.action.getBoard();
 	aiBoardDiv.append(generateBoard(aiBoard));
 
@@ -32,6 +30,12 @@ export function newGame() {
 	const dirBtn = document.createElement('button');
 	dirBtn.textContent = 'Direction: Horizontal';
 	playerBoardDiv.append(dirBtn);
+
+	let direction = 'horizontal';
+	dirBtn.addEventListener('click', () => {
+		direction = toggleDirection(direction);
+		dirBtn.textContent = `Direction: ${direction[0].toUpperCase() + direction.slice(1)}`;
+	});
 
 
 	// que ships
@@ -48,7 +52,10 @@ export function newGame() {
 
 		// ship key
 		const ship = shipQue[shipQue.length - 1];
-		let placeShipSuccessful = player.action.placeShip(ships[ship], 'horizontal', [row, col]);
+		let placeShipSuccessful = player.action.placeShip(
+			ships[ship],
+			direction,
+			[row, col]);
 
 		if (placeShipSuccessful) {
 			updateBoard(playerBoardDiv, player.action.getBoard());
@@ -157,4 +164,10 @@ function updateBoard(container, board) {
 function removeBoard(playerContainer, aiContainer) {
 	playerContainer.textContent = "";
 	aiContainer.textContent = "";
+}
+
+function toggleDirection(dir) {
+	return dir.toLowerCase() === 'horizontal'
+		? 'vertical'
+		: 'horizontal'
 }
