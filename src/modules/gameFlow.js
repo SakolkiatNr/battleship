@@ -28,16 +28,17 @@ export function newGame() {
 	// show board
 	playerBoardDiv.append(generateBoard(playerBoard));
 
-
 	// direction button
 	const dirBtn = document.createElement('button');
-	dirBtn.textContent = 'Direction';
+	dirBtn.textContent = 'Direction: Horizontal';
 	playerBoardDiv.append(dirBtn);
+
 
 	// que ships
 	let ships = player.action.getShips();
 	let shipQue = Object.keys(ships).reverse();
 
+	// Player board handler
 	playerBoardDiv.addEventListener('click', (e) => {
 		if (shipQue.length === 0) return;
 
@@ -47,18 +48,17 @@ export function newGame() {
 
 		// ship key
 		const ship = shipQue[shipQue.length - 1];
-		if (player.action.placeShip(ships[ship], 'horizontal', [row, col])) {
+		let placeShipSuccessful = player.action.placeShip(ships[ship], 'horizontal', [row, col]);
+
+		if (placeShipSuccessful) {
+			updateBoard(playerBoardDiv, player.action.getBoard());
+			playerBoardDiv.append(dirBtn);
 			shipQue.pop();
 		}
 
-		updateBoard(playerBoardDiv, player.action.getBoard());
 	});
 
-
-
-
-
-
+	// AI board handler
 	aiBoardDiv.addEventListener('click', (e) => {
 		// if attack marked spot
 		if (e.target.dataset.val === '0' ||
@@ -92,26 +92,34 @@ export function newGame() {
 	});
 }
 
-// player1
-function placePlayerShips(player) {
-	let playerShips = player.action.getShips();
-
-	player.action.placeShip(playerShips.carrier, 'horizontal', [1, 3]);
-	player.action.placeShip(playerShips.battleship, 'vertical', [2, 0]);
-	player.action.placeShip(playerShips.destroyer, 'horizontal', [3, 2]);
-	player.action.placeShip(playerShips.submarine, 'horizontal', [5, 2]);
-	player.action.placeShip(playerShips.patrolBoat, 'vertical', [7, 6]);
-}
-
-// bot
 function placeAiShips(ai) {
 	const aiShips = ai.action.getShips();
+	const que = Object.keys(aiShips).reverse();
 
-	ai.action.placeShip(aiShips.carrier, 'horizontal', [0, 0]);
-	ai.action.placeShip(aiShips.battleship, 'vertical', [2, 1]);
-	ai.action.placeShip(aiShips.destroyer, 'horizontal', [8, 2]);
-	ai.action.placeShip(aiShips.submarine, 'vertical', [3, 5]);
-	ai.action.placeShip(aiShips.patrolBoat, 'horizontal', [7, 8]);
+	const BOARD_SIZE = 10;
+	const randomCoord = () => Math.floor(Math.random() * BOARD_SIZE);
+
+	const dir = ['horizontal', 'vertical'];
+	const DIRECTIONS = 2;
+	const randomPick = () => Math.floor(Math.random() * DIRECTIONS);
+
+	let row = randomCoord();
+	let col = randomCoord();
+
+	while (que.length !== 0) {
+		let ship = que[que.length - 1];
+		let placeShipSucc = ai.action.placeShip(
+			aiShips[ship],
+			dir[randomPick()],
+			[row, col]
+		);
+
+		if (placeShipSucc) {
+			que.pop();
+		}
+		row = randomCoord();
+		col = randomCoord();
+	}
 }
 
 function attackAI(event, player) {
@@ -120,10 +128,6 @@ function attackAI(event, player) {
 	player.action.wasAttacked([row, col]);
 }
 
-function updateBoard(container, board) {
-	container.textContent = "";
-	container.append(generateBoard(board));
-}
 
 function attackPlayer(player) {
 	// ai attack player randomly
@@ -143,6 +147,11 @@ function attackPlayer(player) {
 	}
 
 	player.action.wasAttacked([row, col]);
+}
+
+function updateBoard(container, board) {
+	container.textContent = "";
+	container.append(generateBoard(board));
 }
 
 function removeBoard(playerContainer, aiContainer) {
