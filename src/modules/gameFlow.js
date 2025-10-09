@@ -1,10 +1,7 @@
 //TODO
-// restart the game when game ends
-// 		remove board
-// 		create new newGame()
-//
 // player place ship
-// drag and drop
+// drag and drop??
+// FIX: when click enemy board and release show error!
 
 import { createPlayer } from "./playerNameInput.js";
 import { generateBoard } from "./renderBoard.js";
@@ -19,16 +16,48 @@ export function newGame() {
 	const ai = createPlayer('Enemy');
 
 	// place ships 
-	placePlayerShips(player);
+	// placePlayerShips(player);
 	placeAiShips(ai);
+
 
 	// generate board 
 	const playerBoard = player.action.getBoard();
 	const aiBoard = ai.action.getBoard();
+	aiBoardDiv.append(generateBoard(aiBoard));
 
 	// show board
 	playerBoardDiv.append(generateBoard(playerBoard));
-	aiBoardDiv.append(generateBoard(aiBoard));
+
+
+	// direction button
+	const dirBtn = document.createElement('button');
+	dirBtn.textContent = 'Direction';
+	playerBoardDiv.append(dirBtn);
+
+	// que ships
+	let ships = player.action.getShips();
+	let shipQue = Object.keys(ships).reverse();
+
+	playerBoardDiv.addEventListener('click', (e) => {
+		if (shipQue.length === 0) return;
+
+		// coordinate
+		const row = Number(e.target.dataset.row);
+		const col = Number(e.target.dataset.col);
+
+		// ship key
+		const ship = shipQue[shipQue.length - 1];
+		if (player.action.placeShip(ships[ship], 'horizontal', [row, col])) {
+			shipQue.pop();
+		}
+
+		updateBoard(playerBoardDiv, player.action.getBoard());
+	});
+
+
+
+
+
 
 	aiBoardDiv.addEventListener('click', (e) => {
 		// if attack marked spot
