@@ -6,8 +6,8 @@
 import { Player } from "./game/player.js";
 import { previewPlacement } from "./ui/previewPlacement.js";
 import { placeAiShips, attackAI, attackPlayer } from "./game/ai.js";
-import { generateBoard, updateBoard, removeBoard } from "./ui/renderBoard.js";
-import { playerBoardHandler } from "./ui/playerBoardHandler.js";
+import { generateBoard, generateAiBoard, updateBoard, updateAiBoard, removeBoard } from "./ui/renderBoard.js";
+// import { playerBoardHandler } from "./ui/playerBoardHandler.js";
 
 
 export function newGame() {
@@ -19,7 +19,7 @@ export function newGame() {
 
 	placeAiShips(ai);
 
-	// aiBoardDiv.append(generateBoard(ai.action.getBoard()));
+	aiBoardDiv.append(generateAiBoard(ai.action.getBoard()));
 	playerBoardDiv.append(generateBoard(player.action.getBoard()));
 
 	let direction = 'horizontal';
@@ -69,7 +69,7 @@ export function newGame() {
 
 			if (shipQue.length === 0) {
 				preview.removeListener();
-				aiBoardDiv.append(generateBoard(ai.action.getBoard()));
+				// aiBoardDiv.append(generateAiBoard(ai.action.getBoard()));
 				return;
 			}
 			playerBoardDiv.append(dirBtn);
@@ -89,7 +89,7 @@ export function newGame() {
 			e.target.dataset.val === '1') return;
 
 		attackAI(e.target, ai);
-		updateBoard(aiBoardDiv, ai.action.getBoard());
+		updateAiBoard(aiBoardDiv, ai.action.getBoard());
 
 		// if all of the Ai ship sinks
 		if (ai.action.CheckSink) {
