@@ -3,9 +3,10 @@
 // drag and drop??
 // FIX: when click enemy board and release show error!
 
-import { Player } from "./player.js";
-import { generateBoard } from "./renderBoard.js";
-import { previewPlacement } from "./previewPlacement.js";
+import { Player } from "./game/player.js";
+import { generateBoard, updateBoard, removeBoard } from "./ui/renderBoard.js";
+import { previewPlacement } from "./ui/previewPlacement.js";
+
 
 export function newGame() {
 	// board containers
@@ -180,16 +181,6 @@ function attackPlayer(player) {
 	}
 
 	player.action.wasAttacked([row, col]);
-}
-
-function updateBoard(container, board) {
-	container.textContent = "";
-	container.append(generateBoard(board));
-}
-
-function removeBoard(playerContainer, aiContainer) {
-	playerContainer.textContent = "";
-	aiContainer.textContent = "";
 }
 
 function toggleDirection(dir) {

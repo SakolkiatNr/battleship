@@ -31,3 +31,13 @@ function convertValueToUI(value) {
 	if (value === 1) return 'X'
 	if (typeof value === 'string') return '■';
 }
+
+export function updateBoard(container, board) {
+	container.textContent = "";
+	container.append(generateBoard(board));
+}
+
+export function removeBoard(playerContainer, aiContainer) {
+	playerContainer.textContent = "";
+	aiContainer.textContent = "";
+}
