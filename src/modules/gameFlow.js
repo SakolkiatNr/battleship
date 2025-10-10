@@ -1,51 +1,51 @@
 //TODO
 // hide enemy display
-// drag and drop??
+// show winner dialog
 // FIX: when click enemy board and release show error!
 
 import { Player } from "./game/player.js";
-import { generateBoard, updateBoard, removeBoard } from "./ui/renderBoard.js";
 import { previewPlacement } from "./ui/previewPlacement.js";
+import { placeAiShips, attackAI, attackPlayer } from "./game/ai.js";
+import { generateBoard, updateBoard, removeBoard } from "./ui/renderBoard.js";
+import { playerBoardHandler } from "./ui/playerBoardHandler.js";
 
 
 export function newGame() {
-	// board containers
 	const playerBoardDiv = document.getElementById('player-board');
 	const aiBoardDiv = document.getElementById('ai-board');
 
-	// create players
 	const player = Player('Steve');
 	const ai = Player('Enemy');
 
-	// generate board 
-	const playerBoard = player.action.getBoard();
-
 	placeAiShips(ai);
-	const aiBoard = ai.action.getBoard();
-	aiBoardDiv.append(generateBoard(aiBoard));
 
-	// show board
-	playerBoardDiv.append(generateBoard(playerBoard));
+	// aiBoardDiv.append(generateBoard(ai.action.getBoard()));
+	playerBoardDiv.append(generateBoard(player.action.getBoard()));
 
-	// direction button
+	let direction = 'horizontal';
 	const dirBtn = document.createElement('button');
 	dirBtn.textContent = 'Direction: Horizontal';
 	playerBoardDiv.append(dirBtn);
 
-	let direction = 'horizontal';
 	dirBtn.addEventListener('click', () => {
-		direction = toggleDirection(direction);
+		direction = direction === 'horizontal' ? 'vertical' : 'horizontal';
 		dirBtn.textContent = `Direction: ${direction[0].toUpperCase() + direction.slice(1)}`;
 	});
 
 	// que ships
 	const ships = player.action.getShips();
 	let shipQue = Object.keys(ships).reverse();
-
-	// Initial preview
 	let iniLength = ships[shipQue[shipQue.length - 1]].length;
+
 	let preview = previewPlacement(playerBoardDiv, iniLength, direction);
-	preview.addListener();
+
+	const reloadPreview = () => {
+		preview.removeListener();
+		preview = previewPlacement(playerBoardDiv, iniLength, direction);
+		preview.addListener();
+	}
+	reloadPreview();
+
 
 	// Player board handler
 	playerBoardDiv.addEventListener('click', (e) => {
@@ -61,34 +61,24 @@ export function newGame() {
 			direction,
 			[row, col]);
 
-		// show ship length when hover 
-		// reload preview when change direction
-		const reloadPreview = () => {
-			preview.removeListener();
-			preview = previewPlacement(playerBoardDiv, iniLength, direction);
-			preview.addListener();
-		}
 		reloadPreview();
 
 		if (placeShipSuccessful) {
 			updateBoard(playerBoardDiv, player.action.getBoard());
-			playerBoardDiv.append(dirBtn);
 			shipQue.pop();
 
 			if (shipQue.length === 0) {
 				preview.removeListener();
+				aiBoardDiv.append(generateBoard(ai.action.getBoard()));
 				return;
 			}
+			playerBoardDiv.append(dirBtn);
 
 			// preview next ship
 			iniLength = ships[shipQue[shipQue.length - 1]].length;
 			reloadPreview();
 		}
 	});
-
-
-
-
 
 
 
@@ -124,67 +114,4 @@ export function newGame() {
 			return;
 		}
 	});
-}
-
-function placeAiShips(ai) {
-	const aiShips = ai.action.getShips();
-	const que = Object.keys(aiShips).reverse();
-
-	const BOARD_SIZE = 10;
-	const randomCoord = () => Math.floor(Math.random() * BOARD_SIZE);
-
-	const dir = ['horizontal', 'vertical'];
-	const DIRECTIONS = 2;
-	const randomPick = () => Math.floor(Math.random() * DIRECTIONS);
-
-	let row = randomCoord();
-	let col = randomCoord();
-
-	while (que.length !== 0) {
-		let ship = que[que.length - 1];
-		let placeShipSucc = ai.action.placeShip(
-			aiShips[ship],
-			dir[randomPick()],
-			[row, col]
-		);
-
-		if (placeShipSucc) {
-			que.pop();
-		}
-		row = randomCoord();
-		col = randomCoord();
-	}
-}
-
-function attackAI(event, player) {
-	const row = event.dataset.row;
-	const col = event.dataset.col;
-	player.action.wasAttacked([row, col]);
-}
-
-
-function attackPlayer(player) {
-	// ai attack player randomly
-	// it's an array so index is between 0 - 9
-	const BOARD_SIZE = 10;
-	const randomCoord = () => Math.floor(Math.random() * BOARD_SIZE);
-
-	let row = randomCoord();
-	let col = randomCoord();
-	let cell = player.action.getBoard()[row][col];
-
-	// prevent ai attack the same cell
-	while (cell === 1 || cell === 0) {
-		row = randomCoord();
-		col = randomCoord();
-		cell = player.action.getBoard()[row][col];
-	}
-
-	player.action.wasAttacked([row, col]);
-}
-
-function toggleDirection(dir) {
-	return dir.toLowerCase() === 'horizontal'
-		? 'vertical'
-		: 'horizontal'
 }
