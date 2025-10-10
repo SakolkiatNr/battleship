@@ -1,9 +1,10 @@
 //TODO
-// player place ship
+// show preview when hover
+// hide enemy display
 // drag and drop??
 // FIX: when click enemy board and release show error!
 
-import { createPlayer } from "./playerNameInput.js";
+import { Player } from "./player.js";
 import { generateBoard } from "./renderBoard.js";
 
 export function newGame() {
@@ -12,9 +13,8 @@ export function newGame() {
 	const aiBoardDiv = document.getElementById('ai-board');
 
 	// create players
-	const player = createPlayer('Steve');
-	const ai = createPlayer('Enemy');
-
+	const player = Player('Steve');
+	const ai = Player('Enemy');
 
 	// generate board 
 	const playerBoard = player.action.getBoard();
@@ -57,13 +57,90 @@ export function newGame() {
 			direction,
 			[row, col]);
 
+		// show ship length when hover 
+		console.log(ships[ship].length);
+
 		if (placeShipSuccessful) {
 			updateBoard(playerBoardDiv, player.action.getBoard());
 			playerBoardDiv.append(dirBtn);
 			shipQue.pop();
 		}
-
 	});
+
+
+	// RENDER PREVIEW SHIP PLACEMENT
+	playerBoardDiv.addEventListener('mouseover', (e) => {
+		if (e.target.className === "cell") {
+
+			const shipLength = 5;
+			const dir = 'vertical';
+			const color = "red";
+
+			if (dir === 'horizonal') {
+				for (let i = 0; i < shipLength; i++) {
+					const targetRow = parseInt(e.target.dataset.row);
+					const targetCol = parseInt(e.target.dataset.col) + i;
+					if (targetRow > 9 || targetCol > 9) return;
+
+					const neighbor = document.querySelector(
+						`[data-col="${targetCol}"][data-row="${targetRow}"]`
+					);
+					neighbor.style.color = color;
+				}
+			}
+
+			if (dir === 'vertical') {
+				for (let i = 0; i < shipLength; i++) {
+					const targetRow = parseInt(e.target.dataset.row) + i;
+					const targetCol = parseInt(e.target.dataset.col);
+					if (targetRow > 9 || targetCol > 9) return;
+
+					const neighbor = document.querySelector(
+						`[data-col="${targetCol}"][data-row="${targetRow}"]`
+					);
+					neighbor.style.color = color;
+				}
+			}
+		}
+	});
+
+	// REMOVE PREVIEW WHEN CHANGE CELL
+	playerBoardDiv.addEventListener('mouseout', (e) => {
+		if (e.target.className === "cell") {
+
+			const shipLength = 5;
+			const dir = 'vertical';
+			const color = "white";
+
+			if (dir === 'horizonal') {
+				for (let i = 0; i < shipLength; i++) {
+					const targetRow = parseInt(e.target.dataset.row);
+					const targetCol = parseInt(e.target.dataset.col) + i;
+					if (targetRow > 9 || targetCol > 9) return;
+
+					const neighbor = document.querySelector(
+						`[data-col="${targetCol}"][data-row="${targetRow}"]`);
+					neighbor.style.color = color;
+				}
+			}
+
+			if (dir === 'vertical') {
+				for (let i = 0; i < shipLength; i++) {
+					const targetRow = parseInt(e.target.dataset.row) + i;
+					const targetCol = parseInt(e.target.dataset.col);
+					if (targetRow > 9 || targetCol > 9) return;
+
+					const neighbor = document.querySelector(
+						`[data-col="${targetCol}"][data-row="${targetRow}"]`);
+					neighbor.style.color = color;
+				}
+			}
+		}
+	})
+
+
+
+
 
 	// AI board handler
 	aiBoardDiv.addEventListener('click', (e) => {
