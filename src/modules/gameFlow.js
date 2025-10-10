@@ -1,5 +1,4 @@
 //TODO
-// show preview when hover
 // hide enemy display
 // drag and drop??
 // FIX: when click enemy board and release show error!
@@ -36,20 +35,16 @@ export function newGame() {
 	dirBtn.addEventListener('click', () => {
 		direction = toggleDirection(direction);
 		dirBtn.textContent = `Direction: ${direction[0].toUpperCase() + direction.slice(1)}`;
-		// RECALL PREVIEW
 	});
 
-	previewPlacement(playerBoardDiv, 5, direction);
-
-
 	// que ships
-	let ships = player.action.getShips();
+	const ships = player.action.getShips();
 	let shipQue = Object.keys(ships).reverse();
 
-	// PLACE PREVIEW HERE
-	//
-	//
-	//
+	// Initial preview
+	let iniLength = ships[shipQue[shipQue.length - 1]].length;
+	let preview = previewPlacement(playerBoardDiv, iniLength, direction);
+	preview.addListener();
 
 	// Player board handler
 	playerBoardDiv.addEventListener('click', (e) => {
@@ -59,22 +54,34 @@ export function newGame() {
 		const row = Number(e.target.dataset.row);
 		const col = Number(e.target.dataset.col);
 
-		// ship key
-		const ship = shipQue[shipQue.length - 1];
-		let placeShipSuccessful = player.action.placeShip(
-			ships[ship],
+		const shipKey = shipQue[shipQue.length - 1];
+		const placeShipSuccessful = player.action.placeShip(
+			ships[shipKey],
 			direction,
 			[row, col]);
 
 		// show ship length when hover 
-		const shipLength = ships[ship].length;
-
-		// previewPlacement(playerBoardDiv, shipLength, direction);
+		// reload preview when change direction
+		const reloadPreview = () => {
+			preview.removeListener();
+			preview = previewPlacement(playerBoardDiv, iniLength, direction);
+			preview.addListener();
+		}
+		reloadPreview();
 
 		if (placeShipSuccessful) {
 			updateBoard(playerBoardDiv, player.action.getBoard());
 			playerBoardDiv.append(dirBtn);
 			shipQue.pop();
+
+			if (shipQue.length === 0) {
+				preview.removeListener();
+				return;
+			}
+
+			// preview next ship
+			iniLength = ships[shipQue[shipQue.length - 1]].length;
+			reloadPreview();
 		}
 	});
 

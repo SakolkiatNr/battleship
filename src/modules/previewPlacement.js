@@ -64,9 +64,25 @@ export function previewPlacement(playerBoardDiv, shipLength, direction) {
 	}
 
 	// add event listener
-	playerBoardDiv.addEventListener('mouseover', showPreview);
-	playerBoardDiv.addEventListener('mouseout', hidePreview);
 
+	const addListener = () => {
+		playerBoardDiv.addEventListener('mouseover', showPreview);
+		playerBoardDiv.addEventListener('mouseout', hidePreview);
+
+	}
+
+	const removeListener = () => {
+		playerBoardDiv.removeEventListener('mouseover', showPreview);
+		playerBoardDiv.removeEventListener('mouseout', hidePreview);
+	}
+
+	// addListener();
+	// removeListener();
+
+	return {
+		addListener,
+		removeListener
+	}
 
 }
 
