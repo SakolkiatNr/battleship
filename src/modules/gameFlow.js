@@ -1,6 +1,6 @@
 //TODO
-// hide enemy display
 // show winner dialog
+//
 // FIX: when click enemy board and release show error!
 
 import { Player } from "./game/player.js";
@@ -19,7 +19,7 @@ export function newGame() {
 
 	placeAiShips(ai);
 
-	aiBoardDiv.append(generateAiBoard(ai.action.getBoard()));
+	// aiBoardDiv.append(generateAiBoard(ai.action.getBoard()));
 	playerBoardDiv.append(generateBoard(player.action.getBoard()));
 
 	let direction = 'horizontal';
@@ -69,7 +69,7 @@ export function newGame() {
 
 			if (shipQue.length === 0) {
 				preview.removeListener();
-				// aiBoardDiv.append(generateAiBoard(ai.action.getBoard()));
+				aiBoardDiv.append(generateAiBoard(ai.action.getBoard()));
 				return;
 			}
 			playerBoardDiv.append(dirBtn);
@@ -84,16 +84,19 @@ export function newGame() {
 
 	// AI board handler
 	aiBoardDiv.addEventListener('click', (e) => {
-		// if attack marked spot
-		if (e.target.dataset.val === '0' ||
-			e.target.dataset.val === '1') return;
+		const cell = e.target.closest('button');
+		if (!cell || !cell.dataset.row || !cell.dataset.col) return;
 
-		attackAI(e.target, ai);
+		// if attack marked spot
+		if (cell.dataset.val === '0' ||
+			cell.dataset.val === '1') return;
+		attackAI(cell, ai);
 		updateAiBoard(aiBoardDiv, ai.action.getBoard());
 
 		// if all of the Ai ship sinks
 		if (ai.action.CheckSink) {
 			alert('you win bro')
+			console.log('you WIN!');
 			// restart 
 
 			removeBoard(playerBoardDiv, aiBoardDiv);
@@ -109,6 +112,7 @@ export function newGame() {
 			alert('you lose bro!');
 			// restart
 
+			console.log('you LOSE!');
 			removeBoard(playerBoardDiv, aiBoardDiv);
 			newGame();
 			return;
