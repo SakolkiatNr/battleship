@@ -6,6 +6,7 @@
 
 import { Player } from "./player.js";
 import { generateBoard } from "./renderBoard.js";
+import { previewPlacement } from "./previewPlacement.js";
 
 export function newGame() {
 	// board containers
@@ -35,12 +36,20 @@ export function newGame() {
 	dirBtn.addEventListener('click', () => {
 		direction = toggleDirection(direction);
 		dirBtn.textContent = `Direction: ${direction[0].toUpperCase() + direction.slice(1)}`;
+		// RECALL PREVIEW
 	});
+
+	previewPlacement(playerBoardDiv, 5, direction);
 
 
 	// que ships
 	let ships = player.action.getShips();
 	let shipQue = Object.keys(ships).reverse();
+
+	// PLACE PREVIEW HERE
+	//
+	//
+	//
 
 	// Player board handler
 	playerBoardDiv.addEventListener('click', (e) => {
@@ -58,7 +67,9 @@ export function newGame() {
 			[row, col]);
 
 		// show ship length when hover 
-		console.log(ships[ship].length);
+		const shipLength = ships[ship].length;
+
+		// previewPlacement(playerBoardDiv, shipLength, direction);
 
 		if (placeShipSuccessful) {
 			updateBoard(playerBoardDiv, player.action.getBoard());
@@ -68,75 +79,6 @@ export function newGame() {
 	});
 
 
-	// RENDER PREVIEW SHIP PLACEMENT
-	playerBoardDiv.addEventListener('mouseover', (e) => {
-		if (e.target.className === "cell") {
-
-			const shipLength = 5;
-			const dir = 'vertical';
-			const color = "red";
-
-			if (dir === 'horizonal') {
-				for (let i = 0; i < shipLength; i++) {
-					const targetRow = parseInt(e.target.dataset.row);
-					const targetCol = parseInt(e.target.dataset.col) + i;
-					if (targetRow > 9 || targetCol > 9) return;
-
-					const neighbor = document.querySelector(
-						`[data-col="${targetCol}"][data-row="${targetRow}"]`
-					);
-					neighbor.style.color = color;
-				}
-			}
-
-			if (dir === 'vertical') {
-				for (let i = 0; i < shipLength; i++) {
-					const targetRow = parseInt(e.target.dataset.row) + i;
-					const targetCol = parseInt(e.target.dataset.col);
-					if (targetRow > 9 || targetCol > 9) return;
-
-					const neighbor = document.querySelector(
-						`[data-col="${targetCol}"][data-row="${targetRow}"]`
-					);
-					neighbor.style.color = color;
-				}
-			}
-		}
-	});
-
-	// REMOVE PREVIEW WHEN CHANGE CELL
-	playerBoardDiv.addEventListener('mouseout', (e) => {
-		if (e.target.className === "cell") {
-
-			const shipLength = 5;
-			const dir = 'vertical';
-			const color = "white";
-
-			if (dir === 'horizonal') {
-				for (let i = 0; i < shipLength; i++) {
-					const targetRow = parseInt(e.target.dataset.row);
-					const targetCol = parseInt(e.target.dataset.col) + i;
-					if (targetRow > 9 || targetCol > 9) return;
-
-					const neighbor = document.querySelector(
-						`[data-col="${targetCol}"][data-row="${targetRow}"]`);
-					neighbor.style.color = color;
-				}
-			}
-
-			if (dir === 'vertical') {
-				for (let i = 0; i < shipLength; i++) {
-					const targetRow = parseInt(e.target.dataset.row) + i;
-					const targetCol = parseInt(e.target.dataset.col);
-					if (targetRow > 9 || targetCol > 9) return;
-
-					const neighbor = document.querySelector(
-						`[data-col="${targetCol}"][data-row="${targetRow}"]`);
-					neighbor.style.color = color;
-				}
-			}
-		}
-	})
 
 
 
