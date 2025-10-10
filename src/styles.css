@@ -9,5 +9,9 @@
 }
 
 .preview {
-	@apply text-green-400;
+	@apply text-green-400 bg-green-900;
+}
+
+.invalid {
+	@apply text-red-600 bg-red-900;
 }
