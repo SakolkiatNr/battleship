@@ -1,5 +1,6 @@
 export function generateBoard(board) {
 	const boardDiv = document.createElement('div');
+	boardDiv.classList.add('board-container');
 
 	// create board
 	board.forEach((row, rowIdx) => {
@@ -47,6 +48,7 @@ function addCellClass(cell) {
 
 export function generateAiBoard(board) {
 	const boardDiv = document.createElement('div');
+	boardDiv.classList.add('board-container');
 
 	// create board
 	board.forEach((row, rowIdx) => {

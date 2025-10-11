@@ -29,6 +29,7 @@ export function newGame() {
 	let direction = 'horizontal';
 	const dirBtn = document.createElement('button');
 	dirBtn.textContent = 'Direction: Horizontal';
+	dirBtn.classList.add('direction-btn');
 	playerBoardDiv.append(dirBtn);
 
 	dirBtn.addEventListener('click', () => {

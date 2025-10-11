@@ -1,19 +1,12 @@
 @import "tailwindcss";
 
+/* BOARD */
 .cell {
 	@apply w-10 h-10 border-1 border-blue-950 box-border bg-blue-600 text-blue-900;
 }
 
 .cell:hover {
 	@apply bg-blue-700;
-}
-
-.preview {
-	@apply text-green-400 bg-green-900;
-}
-
-.invalid {
-	@apply text-red-600 bg-red-900;
 }
 
 .ship-marked {
@@ -25,5 +18,27 @@
 }
 
 .player-ship {
-	@apply text-neutral-400 bg-blue-700;
+	@apply text-neutral-400
+	/*bg-blue-700*/
+	;
+}
+
+
+.preview {
+	@apply text-green-400 bg-green-900 !;
+}
+
+.invalid {
+	@apply text-red-600 bg-red-900 !;
+}
+
+
+/* BOARD CONTAINER */
+.board-container {
+	@apply flex flex-col flex-nowrap w-[400px];
+}
+
+/* BUTTONS */
+.direction-btn {
+	@apply border-1 px-5 py-3 w-5 my-10 rounded-md;
 }
