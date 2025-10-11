@@ -31,7 +31,7 @@ export function placeAiShips(ai) {
 export function attackAI(event, player) {
 	const row = event.dataset.row;
 	const col = event.dataset.col;
-	player.action.wasAttacked([row, col]);
+	return player.action.wasAttacked([row, col]);
 }
 
 
@@ -52,5 +52,5 @@ export function attackPlayer(player) {
 		cell = player.action.getBoard()[row][col];
 	}
 
-	player.action.wasAttacked([row, col]);
+	return player.action.wasAttacked([row, col]);
 }

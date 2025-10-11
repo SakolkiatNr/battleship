@@ -16,8 +16,12 @@ export function Gameboard() {
 	}
 
 	const wasAttacked = (target) => {
-		receiveAttack(board, target, ships);
+		let stat = receiveAttack(board, target, ships);
+		// receiveAttack(board, target, ships);
 		checkAllSink(ships);
+
+		// console.log(stat);
+		return stat;
 	}
 
 	const getBoard = () => board;
@@ -119,11 +123,16 @@ export function receiveAttack(board, pointer, ships) {
 	// if found ship, hit it! 
 	if (typeof cell === 'string') {
 		for (let ship in ships) {
-			if (ships[ship].id === cell)
+			if (ships[ship].id === cell) {
 				ships[ship].getHit();
+				markSpot(board, pointer);
+				return true;
+			}
 		}
 	}
+
 	markSpot(board, pointer);
+	return false;
 }
 
 export function checkAllSink(ships) {

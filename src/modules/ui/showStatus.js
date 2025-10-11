@@ -1,8 +1,8 @@
-export function statusBar(shipName) {
+export function statusBar(shipName, name) {
 	const status = document.getElementById('status-bar');
 	if (shipName === "startGame") {
 
-		return status.textContent = "Attack opponent";
+		return status.textContent = `Captain ${name}, the fleet is ready. Awaiting your command to strike!`;
 
 	}
 	status.textContent = `Place your ${capitalize(shipName)}`;

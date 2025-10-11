@@ -7,7 +7,8 @@ import { placeAiShips, attackAI, attackPlayer } from "./game/ai.js";
 import { generateBoard, generateAiBoard, updateBoard, updateAiBoard, removeBoard } from "./ui/renderBoard.js";
 import { showResult } from "./ui/showResultDialog.js";
 import { statusBar } from "./ui/showStatus.js";
-
+import { getPlayerName } from "./game/playerNameInput.js";
+import { reportAttackStatus } from "./ui/battleLog.js";
 
 export function newGame() {
 	const oldPlayerBoardDiv = document.getElementById('player-board');
@@ -19,7 +20,7 @@ export function newGame() {
 	oldPlayerBoardDiv.replaceWith(playerBoardDiv);
 	oldAiBoardDiv.replaceWith(aiBoardDiv);
 
-	const player = Player('Steve');
+	const player = Player(getPlayerName());
 	const ai = Player('Enemy');
 
 	placeAiShips(ai);
@@ -42,6 +43,7 @@ export function newGame() {
 	let shipQue = Object.keys(ships).reverse();
 	let iniLength = ships[shipQue[shipQue.length - 1]].length;
 
+	// Preview placement
 	let preview = previewPlacement(playerBoardDiv, iniLength, direction);
 
 	// status bar
@@ -79,7 +81,7 @@ export function newGame() {
 			if (shipQue.length === 0) {
 				preview.removeListener();
 				aiBoardDiv.append(generateAiBoard(ai.action.getBoard()));
-				statusBar('startGame');
+				statusBar('startGame', player.name);
 				return;
 			}
 			playerBoardDiv.append(dirBtn);
@@ -103,7 +105,13 @@ export function newGame() {
 		if (cell.dataset.val === '0' ||
 			cell.dataset.val === '1') return;
 
-		attackAI(cell, ai);
+		// battle log
+		if (attackAI(cell, ai)) {
+			reportAttackStatus('playerHit', player.name, ai.name);
+		} else {
+			reportAttackStatus('playerMiss', player.name, ai.name);
+		}
+
 		updateAiBoard(aiBoardDiv, ai.action.getBoard());
 
 		// if all of the Ai ship sinks
@@ -116,7 +124,11 @@ export function newGame() {
 		}
 
 		// Ai strike back!!!
-		attackPlayer(player);
+		if (attackPlayer(player)) {
+			reportAttackStatus('enemyHit', ai.name, player.name);
+		} else {
+			reportAttackStatus('enemyMiss', ai.name, player.name);
+		}
 		updateBoard(playerBoardDiv, player.action.getBoard());
 
 		if (player.action.CheckSink) {
