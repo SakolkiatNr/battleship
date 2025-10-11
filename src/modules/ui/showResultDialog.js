@@ -1,8 +1,9 @@
-export function showResult(callbackFn) {
+export function showResult(callbackFn, ifWin) {
 	const dialog = document.getElementById('result-dialog');
 	dialog.setAttribute("open", "");
 
 	newGameBtnHandler(dialog, callbackFn);
+	result(ifWin);
 }
 
 function closeDialog(dialog) {
@@ -15,4 +16,11 @@ function newGameBtnHandler(dialog, callbackFn) {
 		closeDialog(dialog);
 		callbackFn();
 	});
+}
+
+function result(value) {
+	const header = document.getElementById('game-result');
+
+	if (value) header.textContent = "VICTORY !";
+	else header.textContent = "DEFEAT !";
 }

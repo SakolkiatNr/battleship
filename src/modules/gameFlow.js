@@ -110,7 +110,7 @@ export function newGame() {
 		if (ai.action.CheckSink) {
 			console.log('VICTORY!');
 			// restart 
-			showResult(newGame);
+			showResult(newGame, true);
 			removeBoard(playerBoardDiv, aiBoardDiv);
 			return;
 		}
@@ -122,8 +122,8 @@ export function newGame() {
 		if (player.action.CheckSink) {
 			console.log('DEFEAT!');
 			// restart
+			showResult(newGame, false);
 			removeBoard(playerBoardDiv, aiBoardDiv);
-			showResult(newGame);
 			return;
 		}
 	});
