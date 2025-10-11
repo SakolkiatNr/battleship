@@ -448,6 +448,10 @@
   padding-inline: calc(var(--spacing) * 5);
   padding-block: calc(var(--spacing) * 3);
 }
+.direction-btn:hover {
+  background-color: var(--color-white);
+  color: var(--color-black);
+}
 @media (max-width: 850px) {
   #gameboard {
     display: flex;

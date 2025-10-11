@@ -41,6 +41,10 @@
 	@apply border-1 px-5 py-3 w-50 my-5 rounded-md;
 }
 
+.direction-btn:hover {
+	@apply bg-white text-black;
+}
+
 @media (max-width: 850px) {
 	#gameboard {
 @apply flex flex-col items-center gap-10 ;
