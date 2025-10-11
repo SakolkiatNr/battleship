@@ -1,4 +1,4 @@
-export function reportAttackStatus(type, attacker, targetName, delay = 1000) {
+export function reportAttackStatus(type, attacker, targetName) {
 	const status = document.getElementById('status-bar')
 
 	const messages = {
@@ -25,11 +25,8 @@ export function reportAttackStatus(type, attacker, targetName, delay = 1000) {
 	}
 
 	const log = messages[type];
-	// status.textContent = log[Math.floor(Math.random() * log.length)];
-	status.textContent = "...";
+	status.textContent = log[Math.floor(Math.random() * log.length)];
+	// status.textContent = "...";
 
-	setTimeout(() => {
-		status.textContent = log[Math.floor(Math.random() * log.length)];
-	}, delay)
 }
 
