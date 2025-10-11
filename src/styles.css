@@ -5,7 +5,7 @@
 	@apply w-10 h-10 border-1 border-blue-950 box-border bg-blue-600 text-blue-900;
 }
 
-.cell:hover {
+#ai-board > .board-container > div > .cell:hover {
 	@apply bg-blue-700;
 }
 
@@ -18,20 +18,18 @@
 }
 
 .player-ship {
-	@apply text-neutral-400
-	/*bg-blue-700*/
-	;
+	@apply text-neutral-300 bg-blue-700;
 }
 
 
+/* PREVIEW SHIP */
 .preview {
-	@apply text-green-400 bg-green-900 !;
+	@apply text-green-400 bg-green-900;
 }
 
 .invalid {
-	@apply text-red-600 bg-red-900 !;
+	@apply text-red-600 bg-red-900;
 }
-
 
 /* BOARD CONTAINER */
 .board-container {
@@ -40,5 +38,5 @@
 
 /* BUTTONS */
 .direction-btn {
-	@apply border-1 px-5 py-3 w-5 my-10 rounded-md;
+	@apply border-1 px-5 py-3 w-50 my-5 rounded-md;
 }
