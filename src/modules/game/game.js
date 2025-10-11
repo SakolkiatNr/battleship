@@ -1,11 +1,6 @@
 import { createShips } from "./createShips.js";
 
 export function Gameboard() {
-	// place ship at specific coordinates by calling ship class
-	// receive attack function
-	// track missed attacks
-	// report if all the ships have sunk
-
 	const board = oceanGrid();
 	const ships = createShips();
 
@@ -17,10 +12,8 @@ export function Gameboard() {
 
 	const wasAttacked = (target) => {
 		let stat = receiveAttack(board, target, ships);
-		// receiveAttack(board, target, ships);
 		checkAllSink(ships);
 
-		// console.log(stat);
 		return stat;
 	}
 

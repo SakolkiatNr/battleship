@@ -46,6 +46,7 @@ function addCellClass(cell) {
 }
 
 
+
 export function generateAiBoard(board) {
 	const boardDiv = document.createElement('div');
 	boardDiv.classList.add('board-container');
@@ -78,8 +79,8 @@ function aiBoardUI(value) {
 	if (value === null) return '•';
 	if (value === 0) return '+';
 	if (value === 1) return '■'
-	if (typeof value === 'string') return '■';
-	// if (typeof value === 'string') return '•';
+	// if (typeof value === 'string') return '■';
+	if (typeof value === 'string') return '•';
 }
 
 function addAICellClass(cell) {
@@ -90,6 +91,15 @@ function addAICellClass(cell) {
 		cell.classList.add('missed-marked');
 	}
 }
+
+
+
+
+
+
+
+
+
 
 
 export function updateBoard(container, board) {

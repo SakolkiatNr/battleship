@@ -41,7 +41,6 @@ export function previewPlacement(playerBoardDiv, shipLength, direction) {
 			const cell = document.querySelector(
 				`[data-col="${col}"][data-row="${row}"]`
 			);
-			// cell.textContent = '■';
 
 			if (cell) {
 				if (showPreview && valid) {
@@ -51,7 +50,6 @@ export function previewPlacement(playerBoardDiv, shipLength, direction) {
 				} else {
 					cell.classList.remove(previewClass);
 					cell.classList.remove(invalidClass);
-					// cell.textContent = '•';
 				}
 			}
 		}
@@ -65,12 +63,9 @@ export function previewPlacement(playerBoardDiv, shipLength, direction) {
 		preview(e, false);
 	}
 
-	// add event listener
-
 	const addListener = () => {
 		playerBoardDiv.addEventListener('mouseover', showPreview);
 		playerBoardDiv.addEventListener('mouseout', hidePreview);
-
 	}
 
 	const removeListener = () => {
@@ -78,17 +73,9 @@ export function previewPlacement(playerBoardDiv, shipLength, direction) {
 		playerBoardDiv.removeEventListener('mouseout', hidePreview);
 	}
 
-	// addListener();
-	// removeListener();
-
 	return {
 		addListener,
 		removeListener
 	}
-
 }
 
-// if (value === null) return '•';
-// if (value === 0) return '+';
-// if (value === 1) return '■'
-// if (typeof value === 'string') return '■';

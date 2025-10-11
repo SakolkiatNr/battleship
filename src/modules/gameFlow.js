@@ -1,6 +1,3 @@
-//TODO
-// use Async await
-
 import { Player } from "./game/player.js";
 import { previewPlacement } from "./ui/previewPlacement.js";
 import { placeAiShips } from "./game/ai.js";
@@ -21,6 +18,7 @@ export function newGame() {
 	oldPlayerBoardDiv.replaceWith(playerBoardDiv);
 	oldAiBoardDiv.replaceWith(aiBoardDiv);
 
+	// create Player data
 	const player = Player(getPlayerName());
 	const ai = Player('Enemy');
 
@@ -99,6 +97,8 @@ export function newGame() {
 			statusBar(shipName);
 		}
 	});
+
+
 
 
 
