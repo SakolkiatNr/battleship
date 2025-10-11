@@ -3,12 +3,13 @@
 
 import { Player } from "./game/player.js";
 import { previewPlacement } from "./ui/previewPlacement.js";
-import { placeAiShips, attackAI, attackPlayer } from "./game/ai.js";
+import { placeAiShips } from "./game/ai.js";
 import { generateBoard, generateAiBoard, updateBoard, updateAiBoard, removeBoard } from "./ui/renderBoard.js";
 import { showResult } from "./ui/showResultDialog.js";
 import { statusBar } from "./ui/showStatus.js";
 import { getPlayerName } from "./game/playerNameInput.js";
-import { reportAttackStatus } from "./ui/battleLog.js";
+import { aiAttack, playerAttack } from "./ui/battleActions.js";
+
 
 export function newGame() {
 	const oldPlayerBoardDiv = document.getElementById('player-board');
@@ -58,6 +59,9 @@ export function newGame() {
 	}
 	reloadPreview();
 
+
+
+
 	// Player board handler
 	playerBoardDiv.addEventListener('click', (e) => {
 		if (shipQue.length === 0) return;
@@ -99,16 +103,13 @@ export function newGame() {
 
 
 	let isPlayerTurn = true;
-
 	aiBoardDiv.addEventListener('click', async (e) => {
+		// prevent click spamming when turn not complete
 		if (!isPlayerTurn) return;
 		isPlayerTurn = false;
 
-		const didAttack = await playerAttack(e, player, ai);
-		if (!didAttack) {
-			isPlayerTurn = true;
-			return;
-		}
+		const didAttack = playerAttack(e, player, ai);
+		if (!didAttack) return;
 
 		updateAiBoard(aiBoardDiv, ai.action.getBoard());
 
@@ -132,31 +133,31 @@ export function newGame() {
 	});
 }
 
-async function playerAttack(e, player, ai) {
-	const cell = e.target.closest('button');
-	if (!cell || !cell.dataset.row || !cell.dataset.col) return;
-
-	// if attack marked spot
-	if (cell.dataset.val === '0' || cell.dataset.val === '1') return;
-
-	const hit = attackAI(cell, ai);
-
-	// battle log
-	if (hit) {
-		await reportAttackStatus('playerHit', player.name, ai.name, 0);
-	} else {
-		await reportAttackStatus('playerMiss', player.name, ai.name, 0);
-	}
-
-	return true;
-}
-
-async function aiAttack(ai, player) {
-	const hit = attackPlayer(player);
-	// Ai strike back!!!
-	if (hit) {
-		await reportAttackStatus('enemyHit', ai.name, player.name, 800);
-	} else {
-		await reportAttackStatus('enemyMiss', ai.name, player.name, 800);
-	}
-} 
+// function playerAttack(e, player, ai) {
+// 	const cell = e.target.closest('button');
+//
+// 	if (!cell || !cell.dataset.row || !cell.dataset.col) return;
+// 	if (cell.dataset.val === '0' || cell.dataset.val === '1') return;
+//
+// 	const hit = attackAI(cell, ai);
+// 	hit
+// 		? reportAttackStatus('playerHit', player.name, ai.name)
+// 		: reportAttackStatus('playerMiss', player.name, ai.name);
+//
+// 	return true;
+// }
+//
+// function aiAttack(ai, player) {
+//
+// 	return new Promise(resolve => {
+// 		const hit = attackPlayer(player);
+//
+// 		setTimeout(() => {
+// 			hit
+// 				? reportAttackStatus('enemyHit', ai.name, player.name)
+// 				: reportAttackStatus('enemyMiss', ai.name, player.name);
+//
+// 			resolve();
+// 		}, 800);
+// 	});
+// }
