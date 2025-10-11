@@ -1,5 +1,5 @@
 //TODO
-// show winner dialog
+// use Async await
 
 import { Player } from "./game/player.js";
 import { previewPlacement } from "./ui/previewPlacement.js";
@@ -96,47 +96,67 @@ export function newGame() {
 		}
 	});
 
-	// AI board handler
-	aiBoardDiv.addEventListener('click', (e) => {
-		const cell = e.target.closest('button');
-		if (!cell || !cell.dataset.row || !cell.dataset.col) return;
 
-		// if attack marked spot
-		if (cell.dataset.val === '0' ||
-			cell.dataset.val === '1') return;
 
-		// battle log
-		if (attackAI(cell, ai)) {
-			reportAttackStatus('playerHit', player.name, ai.name);
-		} else {
-			reportAttackStatus('playerMiss', player.name, ai.name);
+	let isPlayerTurn = true;
+
+	aiBoardDiv.addEventListener('click', async (e) => {
+		if (!isPlayerTurn) return;
+		isPlayerTurn = false;
+
+		const didAttack = await playerAttack(e, player, ai);
+		if (!didAttack) {
+			isPlayerTurn = true;
+			return;
 		}
 
 		updateAiBoard(aiBoardDiv, ai.action.getBoard());
 
 		// if all of the Ai ship sinks
 		if (ai.action.CheckSink) {
-			console.log('VICTORY!');
-			// restart 
 			showResult(newGame, true);
 			removeBoard(playerBoardDiv, aiBoardDiv);
 			return;
 		}
 
-		// Ai strike back!!!
-		if (attackPlayer(player)) {
-			reportAttackStatus('enemyHit', ai.name, player.name);
-		} else {
-			reportAttackStatus('enemyMiss', ai.name, player.name);
-		}
+		await aiAttack(ai, player);
 		updateBoard(playerBoardDiv, player.action.getBoard());
 
 		if (player.action.CheckSink) {
-			console.log('DEFEAT!');
-			// restart
 			showResult(newGame, false);
 			removeBoard(playerBoardDiv, aiBoardDiv);
 			return;
 		}
+
+		isPlayerTurn = true;
 	});
 }
+
+async function playerAttack(e, player, ai) {
+	const cell = e.target.closest('button');
+	if (!cell || !cell.dataset.row || !cell.dataset.col) return;
+
+	// if attack marked spot
+	if (cell.dataset.val === '0' || cell.dataset.val === '1') return;
+
+	const hit = attackAI(cell, ai);
+
+	// battle log
+	if (hit) {
+		await reportAttackStatus('playerHit', player.name, ai.name, 0);
+	} else {
+		await reportAttackStatus('playerMiss', player.name, ai.name, 0);
+	}
+
+	return true;
+}
+
+async function aiAttack(ai, player) {
+	const hit = attackPlayer(player);
+	// Ai strike back!!!
+	if (hit) {
+		await reportAttackStatus('enemyHit', ai.name, player.name, 800);
+	} else {
+		await reportAttackStatus('enemyMiss', ai.name, player.name, 800);
+	}
+} 
