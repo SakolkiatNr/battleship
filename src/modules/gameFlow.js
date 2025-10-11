@@ -108,8 +108,9 @@ export function newGame() {
 		if (!isPlayerTurn) return;
 		isPlayerTurn = false;
 
-		const didAttack = playerAttack(e, player, ai);
-		if (!didAttack) return;
+		// const didAttack = playerAttack(e, player, ai);
+		playerAttack(e, player, ai);
+		// if (!didAttack) return;
 
 		updateAiBoard(aiBoardDiv, ai.action.getBoard());
 

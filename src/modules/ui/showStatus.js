@@ -3,7 +3,6 @@ export function statusBar(shipName, name) {
 	if (shipName === "startGame") {
 
 		return status.textContent = `Captain ${name}, the fleet is ready. Awaiting your command to strike!`;
-
 	}
 	status.textContent = `Place your ${capitalize(shipName)}`;
 }
