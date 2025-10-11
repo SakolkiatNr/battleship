@@ -448,6 +448,17 @@
   padding-inline: calc(var(--spacing) * 5);
   padding-block: calc(var(--spacing) * 3);
 }
+@media (max-width: 850px) {
+  #gameboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calc(var(--spacing) * 10);
+  }
+  #player-board {
+    margin: calc(var(--spacing) * 0);
+  }
+}
 @property --tw-translate-x {
   syntax: "*";
   inherits: false;
