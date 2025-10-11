@@ -18,6 +18,7 @@ export function playerAttack(e, player, ai) {
 }
 
 export function aiAttack(ai, player) {
+	const WAIT_FOR_ATTACK = 800;
 
 	return new Promise(resolve => {
 		const hit = attackPlayer(player);
@@ -28,6 +29,6 @@ export function aiAttack(ai, player) {
 				: reportAttackStatus('enemyMiss', ai.name, player.name);
 
 			resolve();
-		}, 800);
+		}, WAIT_FOR_ATTACK);
 	});
 }
