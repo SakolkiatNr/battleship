@@ -1,25 +1,28 @@
 //TODO
 // show winner dialog
-//
-// FIX: when click enemy board and release show error!
 
 import { Player } from "./game/player.js";
 import { previewPlacement } from "./ui/previewPlacement.js";
 import { placeAiShips, attackAI, attackPlayer } from "./game/ai.js";
 import { generateBoard, generateAiBoard, updateBoard, updateAiBoard, removeBoard } from "./ui/renderBoard.js";
-// import { playerBoardHandler } from "./ui/playerBoardHandler.js";
+import { showResult } from "./ui/showResultDialog.js";
 
 
 export function newGame() {
-	const playerBoardDiv = document.getElementById('player-board');
-	const aiBoardDiv = document.getElementById('ai-board');
+	const oldPlayerBoardDiv = document.getElementById('player-board');
+	const oldAiBoardDiv = document.getElementById('ai-board');
+
+	// remove old event listener when start a new game
+	const playerBoardDiv = oldPlayerBoardDiv.cloneNode();
+	const aiBoardDiv = oldAiBoardDiv.cloneNode();
+	oldPlayerBoardDiv.replaceWith(playerBoardDiv);
+	oldAiBoardDiv.replaceWith(aiBoardDiv);
 
 	const player = Player('Steve');
 	const ai = Player('Enemy');
 
 	placeAiShips(ai);
 
-	// aiBoardDiv.append(generateAiBoard(ai.action.getBoard()));
 	playerBoardDiv.append(generateBoard(player.action.getBoard()));
 
 	let direction = 'horizontal';
@@ -45,7 +48,6 @@ export function newGame() {
 		preview.addListener();
 	}
 	reloadPreview();
-
 
 	// Player board handler
 	playerBoardDiv.addEventListener('click', (e) => {
@@ -80,8 +82,6 @@ export function newGame() {
 		}
 	});
 
-
-
 	// AI board handler
 	aiBoardDiv.addEventListener('click', (e) => {
 		const cell = e.target.closest('button');
@@ -95,12 +95,10 @@ export function newGame() {
 
 		// if all of the Ai ship sinks
 		if (ai.action.CheckSink) {
-			alert('you win bro')
-			console.log('you WIN!');
+			console.log('VICTORY!');
 			// restart 
-
+			showResult(newGame);
 			removeBoard(playerBoardDiv, aiBoardDiv);
-			newGame();
 			return;
 		}
 
@@ -109,12 +107,10 @@ export function newGame() {
 		updateBoard(playerBoardDiv, player.action.getBoard());
 
 		if (player.action.CheckSink) {
-			alert('you lose bro!');
+			console.log('DEFEAT!');
 			// restart
-
-			console.log('you LOSE!');
 			removeBoard(playerBoardDiv, aiBoardDiv);
-			newGame();
+			showResult(newGame);
 			return;
 		}
 	});
