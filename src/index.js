@@ -2,4 +2,6 @@ import "./output.css";
 
 import { newGame } from "./modules/gameFlow.js";
 
-newGame();
+const startGameBtn = document.getElementById('name-confirm');
+startGameBtn.addEventListener('click', newGame);
+// newGame();
