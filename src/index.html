@@ -21,7 +21,8 @@
 		<div id="ai-board"></div>
 	</div>
 
-	<dialog class="bg-gray-800 text-white p-5 rounded-md shadow-md fixed left-[50%] top-[50%] translate-[-50%]">
+	<!-- NAME INPUT  -->
+	<dialog open class="bg-gray-800 text-white p-5 rounded-md shadow-md fixed left-[50%] top-[50%] translate-[-50%]">
 		<h1 class="text-xl font-semibold mb-2 w-[20rem] ">Welcome to Battleship game!</h1>
 
 		<form method="dialog" class="flex flex-col ">
@@ -38,6 +39,21 @@
 
 		</form>
 	</dialog>
+
+	<!-- GAME RESULT -->
+
+	<dialog id="result-dialog"
+		class="bg-gray-800   text-white px-30 py-18 rounded-md shadow-md fixed left-[50%] top-[50%] translate-[-50%] text-center shadow-xl ">
+		<h1 id="game-result" class="text-5xl">VICTORY !</h1>
+		<!-- <h1 class="text-5xl">DEFEAT !</h1> -->
+		<!-- <div id="result-msg" class="my-5">YOU WIN</div> -->
+		<button id="new-game-btn" class="py-1 px-1 mt-10 border-1 rounded-lg w-45 h-15
+								hover:text-black hover:bg-white">
+			<span>New Battle</span>
+		</button>
+
+	</dialog>
+
 
 </body>
 
