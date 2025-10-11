@@ -6,6 +6,7 @@ import { previewPlacement } from "./ui/previewPlacement.js";
 import { placeAiShips, attackAI, attackPlayer } from "./game/ai.js";
 import { generateBoard, generateAiBoard, updateBoard, updateAiBoard, removeBoard } from "./ui/renderBoard.js";
 import { showResult } from "./ui/showResultDialog.js";
+import { statusBar } from "./ui/showStatus.js";
 
 
 export function newGame() {
@@ -42,6 +43,11 @@ export function newGame() {
 
 	let preview = previewPlacement(playerBoardDiv, iniLength, direction);
 
+	// status bar
+	let shipName = shipQue[shipQue.length - 1];
+	statusBar(shipName);
+	// console.log(shipName);
+
 	const reloadPreview = () => {
 		preview.removeListener();
 		preview = previewPlacement(playerBoardDiv, iniLength, direction);
@@ -72,6 +78,7 @@ export function newGame() {
 			if (shipQue.length === 0) {
 				preview.removeListener();
 				aiBoardDiv.append(generateAiBoard(ai.action.getBoard()));
+				statusBar('startGame');
 				return;
 			}
 			playerBoardDiv.append(dirBtn);
@@ -79,6 +86,10 @@ export function newGame() {
 			// preview next ship
 			iniLength = ships[shipQue[shipQue.length - 1]].length;
 			reloadPreview();
+
+			// update status bar
+			let shipName = shipQue[shipQue.length - 1];
+			statusBar(shipName);
 		}
 	});
 
@@ -90,6 +101,7 @@ export function newGame() {
 		// if attack marked spot
 		if (cell.dataset.val === '0' ||
 			cell.dataset.val === '1') return;
+
 		attackAI(cell, ai);
 		updateAiBoard(aiBoardDiv, ai.action.getBoard());
 
